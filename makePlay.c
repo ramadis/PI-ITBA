@@ -1,6 +1,6 @@
 typePlay makePlay(unsigned short int difficulty, unsigned int score, unsigned short int undos){
 	typePlay game;
-	int size;
+	int size, i, j;
 
 	size = getFromDifficulty(difficulty, NULL, NULL);
 
@@ -8,7 +8,21 @@ typePlay makePlay(unsigned short int difficulty, unsigned int score, unsigned sh
 	game.score = score;
 	game.undos = undos;
 
-	game.board = malloc(size * size * sizeof(unsigned short int));
+	game.board = malloc(size * sizeof(*game.board));
+
+	if(game.board == NULL)
+		return game;
+
+	for(i = 0; i < size; i++){
+		game.board[i] = malloc(size * sizeof (*game.board[i]));
+		
+		if(game.board[i] == NULL){
+			for(j = 0; j < i; j++)
+				free(game.board[j]);
+			free(game.board);
+			game.board = NULL;
+		}
+	}
 
 	return game;
 }
