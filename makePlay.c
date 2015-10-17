@@ -21,6 +21,7 @@ typePlay makePlay(unsigned short int difficulty, unsigned int score, unsigned sh
 				free(game.board[j]);
 			free(game.board);
 			game.board = NULL;
+			return game;
 		}
 	}
 
