@@ -1,4 +1,4 @@
-void executeCmd(int commandNum, typePlay * nowPlay, typePlay * previousPlay){
+signed char executeCmd(int commandNum, typePlay * nowPlay, typePlay * previousPlay){
 
 	switch(commandNum){
 		case 1:
@@ -10,6 +10,7 @@ void executeCmd(int commandNum, typePlay * nowPlay, typePlay * previousPlay){
       break;
     case 3:
       quitGame(nowPlay);
+      return 0;
       break;
     case 4:
       move(4, nowPlay, previousPlay);
@@ -19,5 +20,5 @@ void executeCmd(int commandNum, typePlay * nowPlay, typePlay * previousPlay){
       break;
 	}
 
-  return ;
+  return 1;
 }
