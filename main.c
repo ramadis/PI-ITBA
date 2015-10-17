@@ -1,9 +1,9 @@
 typedef struct {
-	unsigned short int dificultad;
-	unsigned int puntos;
+	unsigned short int difficulty;
+	unsigned int score;
 	unsigned short int undos;
-	unsigned short int  * tablero;
-} tipoJugada;
+	unsigned short int  * board;
+} typePlay;
 
 int main(){
 

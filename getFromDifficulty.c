@@ -1,5 +1,7 @@
-int getFromDifficulty(int difficulty, int * undos, int * max){
-  int size, undo, win;
+int getFromDifficulty(unsigned short int difficulty, unsigned short int * undos, unsigned int * scoreToWin){
+  int size;
+  unsigned short int undo;
+  unsigned int win;
 
   switch(difficulty){
     case 1:
@@ -23,7 +25,7 @@ int getFromDifficulty(int difficulty, int * undos, int * max){
   }
 
   if (undos != NULL) *undos = undo;
-  if (max != NULL) *max = win;
+  if (scoreToWin != NULL) *scoreToWin = win;
   return size;
 }
 
