@@ -1,16 +1,25 @@
 #define CLEAN_BUFFER while(getchar != '\n');
 
 void quitGame(typePlay * game) {
-	char response;
+	char response = 0;
 
-	printf("Escriba S si desea guardar antes de salir: ");
-	scanf("%c", &response);
+	do {
+		printf("\nQuiere guardar antes de salir? [s/n]: ");
+		response = tolower(getchar());
 
-	CLEAN_BUFFER
+		CLEAN_BUFFER
+
+		if (response != 's' && response != 'n'){
+			printf("\nComando invalido");
+			response = 0;
+		}
+	}while(!response);
 
 	if (response == 's'){
 		wrapSave(game);
 	} else {
-		printf("\nSaliendo del juego... \n");
+		printf("\nSaliendo del juego... ");
 	}
+
+	return ;
 }

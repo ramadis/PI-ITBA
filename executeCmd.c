@@ -1,22 +1,22 @@
-signed char executeCmd(int commandNum, typePlay * nowPlay, typePlay * previousPlay){
+signed char executeCmd(int commandNum, typePlay * currentPlay, typePlay * previousPlay){
 
 	switch(commandNum){
 		case 1:
-			if (!undo(nowPlay, previousPlay))
+			if (!undo(currentPlay, previousPlay))
 				printf("\n*** No se puede realizar UNDO en esta instancia ***");
       break;
     case 2:
-      wrapSave(nowPlay);
+      wrapSave(currentPlay);
       break;
     case 3:
-      quitGame(nowPlay);
+      quitGame(currentPlay);
       return 0;
       break;
-    case 4:
-      move(4, nowPlay, previousPlay);
+    case 8:
+      printf ("\n*** Comando no reconocido! ***");
       break;
     default:
-      printf ("\n*** Comando no reconocido! ***");
+      move(commandNum, currentPlay, previousPlay);
       break;
 	}
 

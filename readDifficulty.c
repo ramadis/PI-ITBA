@@ -4,10 +4,10 @@ unsigned char readDifficulty(){
 	int difficulty, valid = 0;
 
 	printf("\nPara empezar a jugar, elija una dificulad");
-	printf("\n1. Facil\n2.Intermedio\n3.Dificil\n");
+	printf("\n1. Facil\n2.Intermedio\n3.Dificil");
 	
 	do {
-		printf("Dificultad [1, 2 o 3]: ");
+		printf("\nDificultad [1, 2 o 3]: ");
 
 		if (!scanf("%d", &difficulty))
 			difficulty = 0;
@@ -21,7 +21,7 @@ unsigned char readDifficulty(){
 				valid = difficulty;
 				break;
 			default:
-				printf("\nIngrese un valor valido como nivel\n");
+				printf("\nIngrese un valor valido como nivel");
 				break;
 		}
 	}while(!valid);

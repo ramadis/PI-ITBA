@@ -6,7 +6,7 @@ typedef struct {
 } typePlay;
 
 int main(){
-	typePlay nowPlay, previousPlay;
+	typePlay currentPlay, previousPlay;
 	unsigned short int auxUndos;
 
 	do {
@@ -15,18 +15,18 @@ int main(){
 
 		switch(option){
 			case 1:
-				nowPlay.difficulty = readDifficulty();
-				getFromDifficulty(nowPlay.difficulty, &auxUndos, NULL);
-				nowPlay = makePlay(nowPlay.difficulty, auxUndos, 0);
-				previousPlay = makePlay(nowPlay.difficulty, auxUndos-1, 0);
-				option = play(&previousPlay, &nowPlay)? option: 3;
+				currentPlay.difficulty = readDifficulty();
+				getFromDifficulty(currentPlay.difficulty, &auxUndos, NULL);
+				currentPlay = makePlay(currentPlay.difficulty, auxUndos, 0);
+				previousPlay = makePlay(currentPlay.difficulty, auxUndos-1, 0);
+				option = play(&previousPlay, &currentPlay)? option: 3;
 				break;
 			case 2:
 				wrapLoad(&actual); //Desde aca adentro se llama a makePlay, getFromDifficulty, etc..
-				option = play(&previousPlay, &nowPlay)? option: 3;
+				option = play(&previousPlay, &currentPlay)? option: 3;
 				break;
 			case 3:
-				printf("\nVolve cuando quieras!\n");
+				printf("\nVolve cuando quieras!");
 				break;
 			default:
 				printf('\nSeleccione una opcion correcta');
