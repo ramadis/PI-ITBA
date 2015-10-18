@@ -28,7 +28,7 @@ int checkStatus(typePlay * previousPlay, typePlay * currentPlay){
 	if (canMove){
 		zeroRand = randInt(0, indexZeros-1);
 		numRand = randInt(1, 100);
-		currentPlay->board[zeros[zeroRand]/10, zeros[zeroRand]%10] = 2 + 2 * (numRand < 12);
+		currentPlay->board[zeros[zeroRand]/10][zeros[zeroRand]%10] = 2 + 2 * (numRand < 12);
 		free(ceros);
 		return CAN_MOVE;
 	} else if(currentPlay->undos == previousPlay->undos){

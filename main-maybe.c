@@ -19,6 +19,8 @@ int main(){
 				getFromDifficulty(currentPlay.difficulty, &auxUndos, NULL);
 				currentPlay = makePlay(currentPlay.difficulty, auxUndos, 0);
 				previousPlay = makePlay(currentPlay.difficulty, auxUndos-1, 0);
+				//Faltaria validar que se haya creado con exito el tablero.
+				//Game.board == NULL
 				option = play(&previousPlay, &currentPlay)? option: 3;
 				break;
 			case 2:
