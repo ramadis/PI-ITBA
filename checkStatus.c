@@ -20,7 +20,7 @@ int checkStatus(typePlay * previousPlay, typePlay * nowPlay){
 			else if (nowPlay->board[i][j] == winNumber)
 				free(ceros);
 				return WIN;
-			else if (!canMove && checkAround(t[i][j]))
+			else if (!canMove && checkAround(nowPlay,i ,j))
 				canMove = 1;
 		}
 	}
