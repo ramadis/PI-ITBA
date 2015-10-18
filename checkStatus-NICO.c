@@ -14,7 +14,7 @@ int checkStatus(typePlay * previousPlay, typePlay * currentPlay){
 
 			if (currentPlay->board[i][j] == 0){
 				
-				if(indexZeros%10 == 0){
+				if(indexZeros%BLOQUE == 0){
 
 					vectorAux = realloc(zeros,(BLOQUE + indexZeros)*sizeof(*zeros));
 					if(vectorAux == NULL){
