@@ -7,20 +7,18 @@ typedef struct {
 
 int main(){
 	typePlay nowPlay, previousPlay;
-	unsigned int auxScore;
 	unsigned short int auxUndos;
 
 	do {
 		auxUndos = 0;
-		auxScore = 0;
 		option = readMenu();
 
 		switch(option){
 			case 1:
 				nowPlay.difficulty = readDifficulty();
-				getFromDifficulty(nowPlay.difficulty, &auxUndos, &auxScore);
-				nowPlay = makePlay(nowPlay.difficulty, auxUndos, auxScore);
-				previousPlay = makePlay(nowPlay.difficulty, auxUndos-1, auxScore);
+				getFromDifficulty(nowPlay.difficulty, &auxUndos, NULL);
+				nowPlay = makePlay(nowPlay.difficulty, auxUndos, 0);
+				previousPlay = makePlay(nowPlay.difficulty, auxUndos-1, 0);
 				option = play(&previousPlay, &nowPlay)? option: 3;
 				break;
 			case 2:

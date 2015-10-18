@@ -1,4 +1,4 @@
-enum states = {LOSE=1, WIN, CAN_MOVE};
+enum states = {LOSE=1, WIN, CAN_MOVE, NO_MEMORY};
 
 void play(typePlay * previousPlay, typePlay * nowPlay){
 	signed char cmd, status = 0;
@@ -6,7 +6,7 @@ void play(typePlay * previousPlay, typePlay * nowPlay){
 
 	do{
 		cmd = executeCmd(readMenu(), nowPlay, previousPlay));
-	}while(cmd && (status = checkStatus()) == CAN_MOVE);
+	}while(cmd && (status = checkStatus(previousPlay, nowPlay)) == CAN_MOVE);
 	
 	if (status == LOSE || status == WIN){
 		
@@ -23,7 +23,9 @@ void play(typePlay * previousPlay, typePlay * nowPlay){
 			}
 		}while(1);
 
-	} else {
-		return 0;
+	} else if(status == NO_MEMORY){
+		printf("\nEl programa se ha quedado sin memoria");	
 	}
+
+	return 0;
 }
