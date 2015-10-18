@@ -1,5 +1,5 @@
 signed char undo(typePlay * nowPlay, typePlay * previousPlay){
-	if(previousPlay->undos != nowPlay->undos){
+	if(previousPlay->undos != nowPlay->undos || nowPlay.undos == 0){
 		return 0;
 	}
 
