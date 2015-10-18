@@ -11,6 +11,8 @@ int main(){
 	unsigned short int auxUndos;
 
 	do {
+		auxUndos = 0;
+		auxScore = 0;
 		option = readMenu();
 
 		switch(option){
@@ -18,13 +20,12 @@ int main(){
 				nowPlay.difficulty = readDifficulty();
 				getFromDifficulty(nowPlay.difficulty, &auxUndos, &auxScore);
 				nowPlay = makePlay(nowPlay.difficulty, auxUndos, auxScore);
-				previousPlay.undos = 0;
-				play(&previousPlay, &nowPlay);
+				previousPlay = makePlay(nowPlay.difficulty, auxUndos-1, auxScore);
+				option = play(&previousPlay, &nowPlay)? option: 3;
 				break;
 			case 2:
 				wrapLoad(&actual); //Desde aca adentro se llama a makePlay, getFromDifficulty, etc..
-				previousPlay.undos = 0;
-				play(&previousPlay, &nowPlay);
+				option = play(&previousPlay, &nowPlay)? option: 3;
 				break;
 			case 3:
 				printf("\nVolve cuando quieras!\n");
@@ -33,7 +34,7 @@ int main(){
 				printf('\nSeleccione una opcion correcta');
 				break;
 		}
-	}while(option != 3 && checkStatus(&actual));
+	}while(option != 3);
 
 	return 0;
 }
