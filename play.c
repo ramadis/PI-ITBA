@@ -2,7 +2,7 @@ enum states = {LOSE=1, WIN, CAN_MOVE, NO_MEMORY};
 
 void play(typePlay * previousPlay, typePlay * nowPlay){
 	signed char cmd, status = 0;
-	unsigned char response;
+	unsigned char response = 0;
 
 	do{
 		cmd = executeCmd(readMenu(), nowPlay, previousPlay));
@@ -14,18 +14,15 @@ void play(typePlay * previousPlay, typePlay * nowPlay){
 			printf("\nQuiere volver a jugar? [s/n]: ");
 			response = toLower(getchar());
 
-			if (response == 's'){
-				return 1;
-			} else if (response == 'n') {
-				return 0;
-			} else {
+			if (response != 's' && response != 'n'){
 				printf("\nComando invalido");
+				response = 0;
 			}
-		}while(1);
+		}while(!response);
 
 	} else if(status == NO_MEMORY){
 		printf("\nEl programa se ha quedado sin memoria");	
 	}
 
-	return 0;
+	return response == 's'; //Si quiere volver a jugar devuelve 1, caso contrario 0 
 }

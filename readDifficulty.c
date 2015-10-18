@@ -1,7 +1,7 @@
 #define CLEAN_BUFFER while(getchar() != '\n');
 
 unsigned char readDifficulty(){
-	int difficulty;
+	int difficulty, valid = 0;
 
 	printf("\nPara empezar a jugar, elija una dificulad");
 	printf("\n1. Facil\n2.Intermedio\n3.Dificil\n");
@@ -18,13 +18,15 @@ unsigned char readDifficulty(){
 			case 1:
 			case 2:
 			case 3:
-				return difficulty;
+				valid = difficulty;
 				break;
 			default:
 				printf("\nIngrese un valor valido como nivel\n");
 				break;
 		}
-	}while(1);
+	}while(!valid);
+
+	return valid;
 
 	return 0;
 }
