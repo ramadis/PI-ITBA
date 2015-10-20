@@ -1,5 +1,9 @@
 #include "backEnd.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 int main(){
 	typePlay currentPlay, previousPlay;
 	unsigned short int auxUndos;
@@ -26,7 +30,7 @@ int main(){
 				printf("\nVolve cuando quieras!");
 				break;
 			default:
-				printf('\nSeleccione una opcion correcta');
+				printf("\nSeleccione una opcion correcta");
 				break;
 		}
 	}while(option != 3);
