@@ -1,3 +1,5 @@
+#define CLEAN_BUFFER while(getchar() != '\n');
+
 signed char executeCmd(int commandNum, typePlay * currentPlay, typePlay * previousPlay){
   typePlay auxPlay;
   auxPlay = makePlay(currentPlay->difficulty, currentPlay->score, currentPlay->undos);
@@ -8,7 +10,9 @@ signed char executeCmd(int commandNum, typePlay * currentPlay, typePlay * previo
 				printf("\n*** No se puede realizar UNDO en esta instancia ***");
       break;
     case 2:
-      wrapSave(currentPlay);
+      //scanf filename
+      //save(currentPlay);
+      //clean buffer
       break;
     case 3:
       quitGame(currentPlay);
