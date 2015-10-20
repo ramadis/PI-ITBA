@@ -9,13 +9,13 @@ signed char checkAround(typePlay * game, int row, int column){
 	if( row >= 1 )
 		canMove = game->board[row-1][column] == current || game->board[row+1][column] == 0 ;
 
-	if( !canMove && row+1 < size)
+	else if( !canMove && row+1 < size)
 		canMove = game->board[row+1][column] == current || game->board[row+1][column] == 0 ;
 
-	if( !canMove && column >= 1 )
+	else if( !canMove && column >= 1 )
 		canMove = game->board[row][column-1] == current || game->board[row+1][column] == 0 ;
 
-	if( !canMove && column+1 < size)
+	else if( !canMove && column+1 < size)
 		canMove = game->board[row][column+1] == current || game->board[row+1][column] == 0 ;
 
 	return canMove;
