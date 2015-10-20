@@ -1,5 +1,6 @@
 int checkStatus(typePlay * previousPlay, typePlay * currentPlay){
-	unsigned short int * zeros = NULL, * vectorAux, winNumber;
+	unsigned short int * zeros = NULL, * vectorAux;
+	unsigned int winNumber;
 	int indexZeros=0, size, i, j, zeroRand, numRand;
 	signed char canMove = 0;
 

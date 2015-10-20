@@ -7,6 +7,7 @@
 int main(){
 	typePlay currentPlay, previousPlay;
 	unsigned short int auxUndos;
+	unsigned char option;
 
 	do {
 		auxUndos = 0;

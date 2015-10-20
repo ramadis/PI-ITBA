@@ -1,9 +1,9 @@
-void play(typePlay * previousPlay, typePlay * currentPlay){
+unsigned char play(typePlay * previousPlay, typePlay * currentPlay){
 	signed char cmd, status = 0;
 	unsigned char response = 0;
 
 	do{
-		cmd = executeCmd(readCmd(), currentPlay, previousPlay));
+		cmd = executeCmd(readCmd(), currentPlay, previousPlay);
 	}while(cmd && (status = checkStatus(previousPlay, currentPlay)) == CAN_MOVE);
 	
 	if (status == LOSE || status == WIN){

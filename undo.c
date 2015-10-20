@@ -1,9 +1,9 @@
-signed char undo(typePlay * nowPlay, typePlay * previousPlay){
-	if(previousPlay->undos != nowPlay->undos || nowPlay.undos == 0){
+signed char undo(typePlay * currentPlay, typePlay * previousPlay){
+	if(previousPlay->undos != currentPlay->undos || currentPlay->undos == 0){
 		return 0;
 	}
 
-	copyPlay(nowPlay, previousPlay);
-	nowPlay->undos--;
+	copyPlay(currentPlay, previousPlay);
+	currentPlay->undos--;
 	return 1;
 }
