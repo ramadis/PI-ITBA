@@ -1,4 +1,4 @@
-#define CLEAN_BUFFER while(getchar != '\n');
+#define CLEAN_BUFFER while(getchar() != '\n');
 
 void wrapSave(typePlay * game){
 	char filename[15] = {0};
@@ -11,7 +11,7 @@ void wrapSave(typePlay * game){
 		CLEAN_BUFFER
 
 		if (parameters && saveGame(game, filename)){
-			printf("\nPartida guarda con exito!");
+			printf("\nPartida guardada con exito!");
 		} else {
 			printf ("\nSe produjo un error en el guardado.");
 			printf ("\nVuelva a intentarlo...");
