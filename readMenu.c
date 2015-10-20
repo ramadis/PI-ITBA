@@ -1,5 +1,3 @@
-#define CLEAN_BUFFER while(getchar() != '\n');
-
 unsigned char readMenu(void){
 	int choice, valid = 0;
 

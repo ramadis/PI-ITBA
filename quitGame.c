@@ -1,5 +1,3 @@
-#define CLEAN_BUFFER while(getchar != '\n');
-
 void quitGame(typePlay * game) {
 	char response = 0;
 

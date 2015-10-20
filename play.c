@@ -1,5 +1,3 @@
-enum states = {LOSE=1, WIN, CAN_MOVE, NO_MEMORY};
-
 void play(typePlay * previousPlay, typePlay * currentPlay){
 	signed char cmd, status = 0;
 	unsigned char response = 0;

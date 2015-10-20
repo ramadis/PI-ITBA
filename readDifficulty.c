@@ -1,5 +1,3 @@
-#define CLEAN_BUFFER while(getchar() != '\n');
-
 unsigned char readDifficulty(){
 	int difficulty, valid = 0;
 

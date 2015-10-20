@@ -1,5 +1,3 @@
-#define CLEAN_BUFFER while(getchar() != '\n');
-
 void wrapSave(typePlay * game){
 	char filename[15] = {0};
 	char parameters;
