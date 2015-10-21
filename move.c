@@ -5,14 +5,14 @@
 #define k1 k * !orientation + orientation * (ind1)
 #define k2 k * orientation + !orientation * (ind2)
 
-void move(typeMatrix * t,int incr,int startj,int startk,int endj,int orientation){
+void move(typeMatrix * t,int incr,int startk,int orientation){
 
   int dim=4;
   int i,j,k,aux,formar;
 
-  for(i=0;i<4;i++){
+  for(i=0;i<dim;i++){
   formar=startk;
-  for(j=startj,k=startk; j != endj ; j+=incr,k+=incr)
+  for(j=startk + incr,k=startk; j>=0 && j<dim ; j+=incr,k+=incr)
     if(t[ind1][ind2] != 0){
       if(t[k1][k2] == t[ind1][ind2]){
         t[k1][k2]*= 2;
@@ -31,7 +31,7 @@ void move(typeMatrix * t,int incr,int startj,int startk,int endj,int orientation
           t[aux1][aux2]= t[ind1][ind2];
           t[ind1][ind2]= 0;}
         else{
-          t[aux1+!orientation*incr][aux2+orientation*incr]= t[ind1][ind2];
+          t[aux1 + !orientation*incr][aux2 + orientation*incr]= t[ind1][ind2];
           t[ind1][ind2]= 0;}
       }
     }
