@@ -2,6 +2,7 @@
 
 signed char executeCmd(int commandNum, typePlay * currentPlay, typePlay * previousPlay){
   typePlay auxPlay;
+  char filename[35];
   auxPlay = makePlay(currentPlay->difficulty, currentPlay->score, currentPlay->undos);
 
 	switch(commandNum){
@@ -10,9 +11,9 @@ signed char executeCmd(int commandNum, typePlay * currentPlay, typePlay * previo
 				printf("\n*** No se puede realizar UNDO en esta instancia ***");
       break;
     case 2:
-      //scanf filename
-      //save(currentPlay);
-      //clean buffer
+      if (scanf("%34s", filename) && !save(currentPlay, filename))
+        printf("\n**** No se pudo guardar con exito ***")
+      CLEAN_BUFFER
       break;
     case 3:
       quitGame(currentPlay);
