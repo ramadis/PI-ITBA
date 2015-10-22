@@ -1,30 +1,20 @@
+#define RESTRICTION_DIFFICULTY choice!=1 && choice!=2 && choice!=3
 unsigned char readDifficulty(){
-	int difficulty, valid = 0;
+	int difficulty;
 
 	printf("\nPara empezar a jugar, elija una dificulad");
-	printf("\n1. Facil\n2.Intermedio\n3.Dificil");
-	
 	do {
-		printf("\nDificultad [1, 2 o 3]: ");
+		printf("\n1. Facil\n2. Intermedio\n3. Dificil");
+		printf("\nIngrese alguna de las opciones [1, 2 o 3]: ");
 
 		if (!scanf("%d", &difficulty))
 			difficulty = 0;
 
 		CLEAN_BUFFER
 
-		switch (difficulty){
-			case 1:
-			case 2:
-			case 3:
-				valid = difficulty;
-				break;
-			default:
-				printf("\nIngrese un valor valido como nivel");
-				break;
-		}
-	}while(!valid);
+		if(RESTRICTION_DIFFICULTY)
+				printf("\n*ERROR: Ingrese un valor válido como opción*\n");
+		}while(RESTRICTION_DIFFICULTY);
 
-	return valid;
-
-	return 0;
+		return difficulty;
 }
