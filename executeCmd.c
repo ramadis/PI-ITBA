@@ -26,7 +26,7 @@ signed char executeCmd(int commandNum, typePlay * currentPlay, typePlay * previo
     default:
       score = 0;
       copyPlay(&auxPlay, currentPlay);
-      if ((score = move(commandNum, currentPlay->board)) != -1){
+      if ((score = move(currentPlay, commandNum)) != -1){
         currentPlay->score += score;
         copyPlay(previousPlay, &auxPlay);
       }

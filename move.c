@@ -5,44 +5,69 @@
 #define k1 k * !orientation + orientation * (ind1)
 #define k2 k * orientation + !orientation * (ind2)
 
-int move(unsigned short int ** t,int incr,int startk,int orientation){
+enum movements {LEFT=4, RIGHT, UP, DOWN};
 
-  int dim=4;
+int move(typePlay * game, int movement){
+
+  int dim = getFromDifficulty(game, NULL, NULL);
   int i,j,k,aux,formar;
   int score = 0;
-  char canMove = -1;
+  char canMove = 0;
+
+  switch(movement){
+    case LEFT:
+      incr = 1;
+      startk = 0;
+      orientation = 0;
+      break;
+    case RIGHT:
+      incr = -1;
+      startk = dim-1;
+      orientation = 0;
+      break;
+    case UP:
+      incr = 1;
+      startk = 0;
+      orientation = 1;
+      break;
+    case DOWN:
+      incr = -1;
+      startk = dim - 1;
+      orientation = 1;
+      break;
+  }
 
   for(i=0;i<dim;i++){
   formar=startk;
   for(j=startk + incr,k=startk; j>=0 && j<dim ; j+=incr,k+=incr)
-    if(t[ind1][ind2] != 0){
-      if(t[k1][k2] == t[ind1][ind2]){
-        score += t[k1][k2]*= 2;
-        t[ind1][ind2] = 0;
+    if(game->board[ind1][ind2] != 0){
+      if(game->board[k1][k2] == game->board[ind1][ind2]){
+        canMove = 1;
+        score += game->board[k1][k2]*= 2;
+        game->board[ind1][ind2] = 0;
         formar = j;}
-      else if(t[k1][k2]==0) {
+      else if(game->board[k1][k2]==0) {
         aux=k;
-        while(t[aux1][aux2] == 0 && aux != formar && aux != startk){
+        while(game->board[aux1][aux2] == 0 && aux != formar && aux != startk){
           aux+=incr*(-1);
         }
-        if(t[aux1][aux2] == t[ind1][ind2]){
-          score += t[aux1][aux2]*= 2;
-          t[ind1][ind2]= 0;
+        if(game->board[aux1][aux2] == game->board[ind1][ind2]){
+          score += game->board[aux1][aux2]*= 2;
+          game->board[ind1][ind2]= 0;
           formar=k;}
-        else if(t[aux1][aux2] == 0){
-          t[aux1][aux2]= t[ind1][ind2];
-          t[ind1][ind2]= 0;}
+        else if(game->board[aux1][aux2] == 0){
+          game->board[aux1][aux2]= game->board[ind1][ind2];
+          game->board[ind1][ind2]= 0;}
         else{
-          t[aux1 + !orientation*incr][aux2 + orientation*incr]= t[ind1][ind2];
-          t[ind1][ind2]= 0;}
+          game->board[aux1 + !orientation*incr][aux2 + orientation*incr]= game->board[ind1][ind2];
+          game->board[ind1][ind2]= 0;}
+        canMove = 1;
       }
     }
   }
 
-  if(canMove == -1)
+  if(!canMove)
     return -1;
   else
     return score;
-
-
 }
