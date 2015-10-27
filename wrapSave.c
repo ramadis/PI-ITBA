@@ -1,10 +1,10 @@
 void wrapSave(typePlay * game){
-	char filename[15] = {0};
+	char filename[36] = {0};
 	char parameters;
 
 	do {
-		printf("Ingrese el nombre del archivo a guardar [MAX 14 CARACTERES]: ");
-		parameters = scanf("%15s", filename);
+		printf("\nIngrese el nombre del archivo a guardar [MAX 35 CARACTERES]: ");
+		parameters = scanf("%35s", filename);
 		
 		CLEAN_BUFFER
 
