@@ -39,7 +39,7 @@ int main(){
 				option = play(&previousPlay, &currentPlay)? option: EXIT;
 				break;
 			case LOAD:
-				wrapLoad(&actual); //Desde aca adentro se llama a makePlay, getFromDifficulty, etc..
+				wrapLoad(&currentPlay); //Desde aca adentro se llama a makePlay, getFromDifficulty, etc..
 				option = play(&previousPlay, &currentPlay)? option: EXIT;
 				break;
 			case EXIT:

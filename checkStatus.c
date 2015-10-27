@@ -10,7 +10,7 @@ int checkStatus(typePlay * previousPlay, typePlay * currentPlay){
 		for(j = 0; j < size; j++){
 
 			if (currentPlay->board[i][j] == 0){
-				
+
 				if(indexZeros%BLOCK == 0){
 
 					vectorAux = realloc(zeros,(BLOCK + indexZeros)*sizeof(*zeros));
@@ -37,7 +37,7 @@ int checkStatus(typePlay * previousPlay, typePlay * currentPlay){
 
 		zeros=realloc(zeros,indexZeros*sizeof(*zeros));
 	}
-	
+
 	if (canMove){
 		zeroRand = randInt(0, indexZeros-1);
 		numRand = randInt(1, 100);
