@@ -4,7 +4,10 @@ unsigned char play(typePlay * previousPlay, typePlay * currentPlay){
 
 	do{
 		cmd = executeCmd(readCmd(), currentPlay, previousPlay);
-	}while(cmd && (status = checkStatus(previousPlay, currentPlay)) == CAN_MOVE);
+
+		if(cmd >= 4 && cmd < 7)
+			status = checkStatus(previousPlay, currentPlay)
+	}while(cmd && status == CAN_MOVE);
 	
 	if (status == LOSE || status == WIN){
 		

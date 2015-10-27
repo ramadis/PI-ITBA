@@ -4,6 +4,7 @@ signed char executeCmd(int commandNum, typePlay * currentPlay, typePlay * previo
   typePlay auxPlay;
   char filename[35];
   auxPlay = makePlay(currentPlay->difficulty, currentPlay->score, currentPlay->undos);
+  int score = 0;
 
 	switch(commandNum){
 		case 1:
@@ -23,11 +24,14 @@ signed char executeCmd(int commandNum, typePlay * currentPlay, typePlay * previo
       printf ("\n*** Comando no reconocido! ***");
       break;
     default:
+      score = 0;
       copyPlay(&auxPlay, currentPlay);
-      if (move(commandNum, currentPlay, previousPlay))
+      if ((score = move(commandNum, currentPlay->board)) != -1){
+        currentPlay->score += score;
         copyPlay(previousPlay, &auxPlay);
+      }
       break;
 	}
 
-  return 1;
+  return commandNum;
 }
