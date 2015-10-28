@@ -56,9 +56,10 @@ int main(){
 			case LOAD:
 				if(wrapLoad(&currentPlay) == 0)
 					printf("\nError al cargar el juego.");	 	//Desde aca adentro se llama a makePlay, getFromDifficulty, etc..
-				else
+				else{
 					previousPlay = makePlay(currentPlay.difficulty, 0 ,0);
 					option = play(&previousPlay, &currentPlay)? option: EXIT;
+				}
 				break;
 			case EXIT:
 				printf("\nVolve cuando quieras!\n");
