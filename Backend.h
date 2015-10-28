@@ -11,7 +11,6 @@ typedef struct {
 	unsigned short int difficulty;
 	unsigned int score;
 	unsigned short int undos;
-	int size;
 	unsigned short int ** board;
 	unsigned int size;
 } typePlay;
