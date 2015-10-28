@@ -124,12 +124,25 @@ int getFromDifficulty(unsigned short int difficulty, unsigned short int * undos,
 }
 
 unsigned char loadGame(typePlay * game, char * loadName){
+	unsigned short int difficulty;
+	int i, j;
 
-  FILE * myGame;
-  if((myGame = fopen(loadName, "r")) == NULL)
+  FILE * file;
+  if((file = fopen(loadName, "rt")) == NULL)
     return 0;
-  fread(game, sizeof(typePlay), 1, myGame);
-  fclose(myGame);
+
+	fread(&difficulty, sizeof(unsigned short int), 1, file);
+
+	*game = makePlay(difficulty, 0 ,0);
+	game->size = getFromDifficulty(game->difficulty, NULL, NULL);
+	fread(&(game->score), sizeof(unsigned int), 1, file);
+	fread(&(game->undos), sizeof(unsigned short int), 1, file);
+
+	for(i=0;i<game->size;i++)
+		for(j=0;j<game->size;j++)
+			fread(&(game->board[i][j]), sizeof(unsigned short int), 1, file);
+
+  fclose(file);
 
   return 1;
 }
@@ -152,7 +165,7 @@ typePlay makePlay(unsigned short int difficulty, unsigned int score, unsigned sh
 
 	for(i = 0; i < size; i++){
 		game.board[i] = malloc(size * sizeof (*game.board[i]));
-		
+
 		if(game.board[i] == NULL){
 			for(j = 0; j < i; j++)
 				free(game.board[j]);
@@ -249,11 +262,19 @@ int randInt(int izq, int der){
 char saveGame(typePlay * game, char * filename){
 	FILE * file;
 	file = fopen(filename, "wt");
-	
+	int i, j;
+
 	if(file == NULL)
 		return 0;
-	
-	fwrite(game, sizeof(typePlay), 1, file);
+
+	game->size = getFromDifficulty(game->difficulty, NULL, NULL);
+	fwrite(&(game->difficulty), sizeof(unsigned short int), 1, file);
+	fwrite(&(game->score), sizeof(unsigned int), 1, file);
+	fwrite(&(game->undos), sizeof(unsigned short int), 1, file);
+	for(i=0;i<game->size;i++)
+		for(j=0;j<game->size;j++)
+			fwrite(&(game->board[i][j]), sizeof(unsigned short int), 1, file);
+
 	fclose(file);
 
 	return 1;

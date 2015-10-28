@@ -54,9 +54,11 @@ int main(){
 				option = play(&previousPlay, &currentPlay)? option: EXIT;
 				break;
 			case LOAD:
-				if(wrapLoad(&currentPlay))
-					printf("\nError al cargar el juego.\n");	 	//Desde aca adentro se llama a makePlay, getFromDifficulty, etc..
-				option = play(&previousPlay, &currentPlay)? option: EXIT;
+				if(wrapLoad(&currentPlay) == 0)
+					printf("\nError al cargar el juego.");	 	//Desde aca adentro se llama a makePlay, getFromDifficulty, etc..
+				else
+					previousPlay = makePlay(currentPlay.difficulty, 0 ,0);
+					option = play(&previousPlay, &currentPlay)? option: EXIT;
 				break;
 			case EXIT:
 				printf("\nVolve cuando quieras!\n");
@@ -94,13 +96,13 @@ unsigned char readMenu(void){
 }
 
 unsigned char wrapLoad(typePlay * game){
-  
-  char loadName[36];
+
+  char loadName[36] = {0};
   int status;
   printf("\nIngrese el nombre del archivo que desea cargar: ");
-  scanf("%35s", loadName);
-  
-  return loadGame(game, loadName);
+	scanf("%35s", loadName);
+	CLEAN_BUFFER
+	return loadGame(game, loadName);
 }
 
 void wrapSave(typePlay * game){
@@ -110,11 +112,11 @@ void wrapSave(typePlay * game){
 	do {
 		printf("\nIngrese el nombre del archivo a guardar [MAX 35 CARACTERES]: ");
 		parameters = scanf("%35s", filename);
-		
+
 		CLEAN_BUFFER
 
 		if (parameters && saveGame(game, filename)){
-			printf("\nPartida guardada con exito!");
+			printf("\nPartida guardada con exito!\n");
 		} else {
 			printf ("\nSe produjo un error en el guardado.");
 			printf ("\nVuelva a intentarlo...");
@@ -207,7 +209,7 @@ void printPlay(const typePlay * game){
 
 	printf("\nPuntaje:%6d", game->score);
 	printf("\nUndos:\t%6d\n", game->undos);
-	
+
 	/*PRINT SUPERIOR BAR*/
 	printf("╔");
 	for(i = 1; i < TOTAL_WIDTH ; i++)
@@ -222,13 +224,13 @@ void printPlay(const typePlay * game){
 			if (game->board[i][j] == 0)
 				printf("║    ");
 			else
-				printf("║%4d", game->board[i][j]);				
+				printf("║%4d", game->board[i][j]);
 		}
-		
+
 		/*PRINT SEPARATOR AND LOWER BAR*/
 		printf("║\n%s", (i != game->size - 1)? "╠" : "╚");
 		for(j = 1; j < TOTAL_WIDTH ; j++)
-			if (i != game->size - 1) 
+			if (i != game->size - 1)
 				printf("%s", (j % 5)? "═" : "╬");
 			else
 				printf("%s", (j % 5)? "═" : "╩");
@@ -249,9 +251,9 @@ unsigned char play(typePlay * previousPlay, typePlay * currentPlay){
 		if(cmd >= 4 && cmd < 8)
 			status = checkStatus(previousPlay, currentPlay);
 	}while(cmd && status == CAN_MOVE);
-	
+
 	if (status == LOSE || status == WIN){
-		
+
 		do {
 			printf("\nQuiere volver a jugar? [s/n]: ");
 			response = tolower(getchar());
@@ -265,10 +267,10 @@ unsigned char play(typePlay * previousPlay, typePlay * currentPlay){
 		}while(!response);
 
 	} else if(status == NO_MEMORY){
-		printf("\nEl programa se ha quedado sin memoria");	
+		printf("\nEl programa se ha quedado sin memoria");
 	}
 
-	return response == 's'; //Si quiere volver a jugar devuelve 1, caso contrario 0 
+	return response == 's'; //Si quiere volver a jugar devuelve 1, caso contrario 0
 }
 
 signed char executeCmd(int commandNum, typePlay * currentPlay, typePlay * previousPlay){
@@ -303,7 +305,7 @@ signed char executeCmd(int commandNum, typePlay * currentPlay, typePlay * previo
       } else {
       	commandNum = 9;
       }
-      
+
       break;
 	}
 
