@@ -1,6 +1,6 @@
 #include "Backend.h"
 
-signed char checkAround(typePlay * game, int row, int column){
+static signed char checkAround(typePlay * game, int row, int column){
 	unsigned short int current;
 	current = game->board[row][column];
 	char canMove = 0;
@@ -238,7 +238,7 @@ int move(typePlay * game, int movement){
     return score;
 }
 
-double randNormalize(void){
+static double randNormalize(void){
 	return rand()/((double)RAND_MAX + 1);
 }
 

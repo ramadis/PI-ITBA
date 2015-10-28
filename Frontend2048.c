@@ -39,7 +39,7 @@ int main(){
 				previousPlay = makePlay(currentPlay.difficulty, 0, 0);
 
 				if(currentPlay.board == NULL || previousPlay.board == NULL){
-					printf("\nNo se pudo generar el tablero");
+					printf("\nNo se pudo generar el tablero\n");
 					option = EXIT;
 				}
 
@@ -55,7 +55,7 @@ int main(){
 				break;
 			case LOAD:
 				if(wrapLoad(&currentPlay))
-					printf("\nError al cargar el juego.");	 	//Desde aca adentro se llama a makePlay, getFromDifficulty, etc..
+					printf("\nError al cargar el juego.\n");	 	//Desde aca adentro se llama a makePlay, getFromDifficulty, etc..
 				option = play(&previousPlay, &currentPlay)? option: EXIT;
 				break;
 			case EXIT:
@@ -281,7 +281,7 @@ signed char executeCmd(int commandNum, typePlay * currentPlay, typePlay * previo
 		case 1:
 			if (!undo(currentPlay, previousPlay))
 				printf("\n*** No se puede realizar UNDO en esta instancia ***");
-      break;
+      	break;
     case 2:
       if (scanf("%34s", filename) && !saveGame(currentPlay, filename))
         printf("\n**** No se pudo guardar con exito ***");
