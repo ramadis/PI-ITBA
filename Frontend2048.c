@@ -29,14 +29,14 @@ int main(){
 	do {
 		auxUndos = 0;
 		option = readMenu();
-		int size, filRand, colRand, i;
+		int filRand, colRand, i;
 
 		switch(option){
 			case PLAY:
 				currentPlay.difficulty = readDifficulty();
-				size = getFromDifficulty(currentPlay.difficulty, &auxUndos, NULL);
+				getFromDifficulty(currentPlay.difficulty, &auxUndos, NULL);
 				currentPlay = makePlay(currentPlay.difficulty, 0, auxUndos);
-				previousPlay = makePlay(currentPlay.difficulty, 0, auxUndos-1);
+				previousPlay = makePlay(currentPlay.difficulty, 0, 0);
 
 				if(currentPlay.board == NULL || previousPlay.board == NULL){
 					printf("\nNo se pudo generar el tablero");
@@ -45,8 +45,8 @@ int main(){
 
 				for(i=0;option != EXIT && i<2;i++){
 					do{
-						filRand = randInt(0, size-1);
-						colRand = randInt(0, size-1);
+						filRand = randInt(0, currentPlay.size-1);
+						colRand = randInt(0, currentPlay.size-1);
 					}while(currentPlay.board[filRand][colRand] != 0);
 					currentPlay.board[filRand][colRand] = 2 + 2 * (randInt(1, 100) < 12);
 				}
@@ -98,7 +98,7 @@ unsigned char wrapLoad(typePlay * game){
   char loadName[36];
   int status;
   printf("\nIngrese el nombre del archivo que desea cargar: ");
-  scanf("%35s\n", loadName);
+  scanf("%35s", loadName);
   
   return loadGame(game, loadName);
 }
@@ -200,11 +200,10 @@ void quitGame(typePlay * game) {
 }
 
 
-#define TOTAL_WIDTH 5 * size
+#define TOTAL_WIDTH 5 * game->size
 
 void printPlay(const typePlay * game){
-	int i, j, size;
-	size = getFromDifficulty(game->difficulty, NULL, NULL);
+	int i, j;
 
 	printf("\nPuntaje:%6d", game->score);
 	printf("\nUndos:\t%6d\n", game->undos);
@@ -216,10 +215,10 @@ void printPlay(const typePlay * game){
 	printf("╗\n");
 
 
-	for(i = 0; i < size; i++){
+	for(i = 0; i < game->size; i++){
 
 		/*PRINT NUMBERS OR SPACES*/
-		for( j = 0; j < size; j++){
+		for( j = 0; j < game->size; j++){
 			if (game->board[i][j] == 0)
 				printf("║    ");
 			else
@@ -227,13 +226,13 @@ void printPlay(const typePlay * game){
 		}
 		
 		/*PRINT SEPARATOR AND LOWER BAR*/
-		printf("║\n%s", (i != size - 1)? "╠" : "╚");
+		printf("║\n%s", (i != game->size - 1)? "╠" : "╚");
 		for(j = 1; j < TOTAL_WIDTH ; j++)
-			if (i != size - 1) 
+			if (i != game->size - 1) 
 				printf("%s", (j % 5)? "═" : "╬");
 			else
 				printf("%s", (j % 5)? "═" : "╩");
-		printf("%s\n", (i != size - 1)? "╣" : "╝");
+		printf("%s\n", (i != game->size - 1)? "╣" : "╝");
 	}
 
 	return ;

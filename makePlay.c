@@ -7,6 +7,7 @@ typePlay makePlay(unsigned short int difficulty, unsigned int score, unsigned sh
 	game.difficulty = difficulty;
 	game.score = score;
 	game.undos = undos;
+	game.size = size;
 
 	game.board = malloc(size * sizeof(*game.board));
 

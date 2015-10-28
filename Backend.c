@@ -1,23 +1,20 @@
 #include "Backend.h"
 
 signed char checkAround(typePlay * game, int row, int column){
-	int size;
 	unsigned short int current;
 	current = game->board[row][column];
 	char canMove = 0;
 
-	size = getFromDifficulty(game->difficulty, NULL, NULL);
-
 	if( row >= 1 )
 		canMove = game->board[row-1][column] == current || game->board[row+1][column] == 0 ;
 
-	else if( !canMove && row+1 < size)
+	else if( !canMove && row+1 < game->size)
 		canMove = game->board[row+1][column] == current || game->board[row+1][column] == 0 ;
 
 	else if( !canMove && column >= 1 )
 		canMove = game->board[row][column-1] == current || game->board[row+1][column] == 0 ;
 
-	else if( !canMove && column+1 < size)
+	else if( !canMove && column+1 < game->size)
 		canMove = game->board[row][column+1] == current || game->board[row+1][column] == 0 ;
 
 	return canMove;
@@ -26,13 +23,13 @@ signed char checkAround(typePlay * game, int row, int column){
 int checkStatus(typePlay * previousPlay, typePlay * currentPlay){
 	unsigned short int * zeros = NULL, * vectorAux;
 	unsigned int winNumber;
-	int indexZeros=0, size, i, j, zeroRand, numRand;
+	int indexZeros=0, i, j, zeroRand, numRand;
 	signed char canMove = 0;
 
-	size = getFromDifficulty(currentPlay->difficulty, NULL, &winNumber);
+	getFromDifficulty(currentPlay->difficulty, NULL, &winNumber);
 
-	for(i = 0; i < size; i++){
-		for(j = 0; j < size; j++){
+	for(i = 0; i < currentPlay->size; i++){
+		for(j = 0; j < currentPlay->size; j++){
 
 			if (currentPlay->board[i][j] == 0){
 
@@ -80,16 +77,16 @@ int checkStatus(typePlay * previousPlay, typePlay * currentPlay){
 }
 
 void copyPlay(typePlay * destination, typePlay * origin){
-	int i, j, size;
+	int i, j;
 
-	size = getFromDifficulty(origin->difficulty, NULL, NULL);
 
 	destination->score = origin->score;
 	destination->undos = origin->undos;
 	destination->difficulty = origin->difficulty;
+	destination->size = origin->size;
 
-	for(i = 0; i < size; i++)
-		for(j = 0; j < size; j++)
+	for(i = 0; i < origin->size; i++)
+		for(j = 0; j < origin->size; j++)
 			destination->board[i][j] = origin->board[i][j];
 
 	return ;
@@ -146,6 +143,7 @@ typePlay makePlay(unsigned short int difficulty, unsigned int score, unsigned sh
 	game.difficulty = difficulty;
 	game.score = score;
 	game.undos = undos;
+	game.size = size;
 
 	game.board = malloc(size * sizeof(*game.board));
 
@@ -176,7 +174,7 @@ typePlay makePlay(unsigned short int difficulty, unsigned int score, unsigned sh
 
 int move(typePlay * game, int movement){
 
-  int dim = getFromDifficulty(game->difficulty, NULL, NULL);
+  int dim = game->size;
   int i,j,k,aux,formar;
   int incr,orientation,startk;
   int score = 0;
@@ -255,7 +253,7 @@ char saveGame(typePlay * game, char * filename){
 	if(file == NULL)
 		return 0;
 	
-	fwrite(game, sizeof(typePlay), 1, file);
+	fwrite(game, sizeof(), 1, file);
 	fclose(file);
 
 	return 1;
