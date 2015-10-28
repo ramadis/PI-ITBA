@@ -149,7 +149,7 @@ int readCmd(void){
   else
     commandnum = 8;
 
-  if(i != 1 && i != 4 && commandnum != 2) CLEAN_BUFFER
+  if(i <= 1 && i >= 4 && commandnum != 2) CLEAN_BUFFER
   return commandnum;
 }
 
