@@ -60,7 +60,6 @@ int checkStatus(typePlay * previousPlay, typePlay * currentPlay){
 		zeros=realloc(zeros,indexZeros*sizeof(*zeros));
 	}
 
-	printf("%d", canMove);
 	if (canMove){
 		zeroRand = randInt(0, indexZeros-1);
 		numRand = randInt(1, 100);

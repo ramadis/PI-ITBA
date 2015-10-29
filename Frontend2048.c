@@ -55,14 +55,14 @@ int main(){
 				break;
 			case LOAD:
 				if(wrapLoad(&currentPlay) == 0)
-					printf("\nError al cargar el juego.");	 	//Desde aca adentro se llama a makePlay, getFromDifficulty, etc..
+					printf("\n***ERROR al cargar el juego***\n");	 	//Desde aca adentro se llama a makePlay, getFromDifficulty, etc..
 				else{
 					previousPlay = makePlay(currentPlay.difficulty, 0 ,0);
 					option = play(&previousPlay, &currentPlay)? option: EXIT;
 				}
 				break;
 			case EXIT:
-				printf("\nVolve cuando quieras!\n");
+				printf("\nVolvé cuando quieras!\n");
 				break;
 			default:
 				printf("\nSeleccione una opcion correcta");
@@ -90,7 +90,7 @@ unsigned char readMenu(void){
 		CLEAN_BUFFER
 
     	if(RESTRICTION_MENU)
-			printf("\n*ERROR: Ingrese un valor válido como opción*");
+			printf("\n***ERROR: Ingrese un valor válido como opción***");
 		}while(RESTRICTION_MENU);
 
 	return choice;
@@ -172,7 +172,7 @@ unsigned char readDifficulty(void){
 		CLEAN_BUFFER
 
 		if(RESTRICTION_DIFFICULTY)
-				printf("\n*ERROR: Ingrese un valor válido como opción*\n");
+				printf("\n***ERROR: Ingrese un valor válido como opción***\n");
 		}while(RESTRICTION_DIFFICULTY);
 
 		return difficulty;
@@ -182,13 +182,13 @@ void quitGame(typePlay * game) {
 	char response = 0;
 
 	do {
-		printf("\nQuiere guardar antes de salir? [s/n]: ");
+		printf("\n¿Quiere guardar antes de salir? [s/n]: ");
 		response = tolower(getchar());
 
 		CLEAN_BUFFER
 
 		if (response != 's' && response != 'n'){
-			printf("\nComando invalido");
+			printf("\n***ERROR: Ingrese un valor válido como opción***");
 			response = 0;
 		}
 	}while(!response);
@@ -254,15 +254,16 @@ unsigned char play(typePlay * previousPlay, typePlay * currentPlay){
 	}while(cmd && status == CAN_MOVE);
 
 	if (status == LOSE || status == WIN){
+		(status == WIN)? printf("GANASTE!\n") : printf("PERDISTE :()\n");
 
 		do {
-			printf("\nQuiere volver a jugar? [s/n]: ");
+			printf("\n¿Quiere volver a jugar? [s/n]: ");
 			response = tolower(getchar());
 
 			CLEAN_BUFFER
 
 			if (response != 's' && response != 'n'){
-				printf("\nComando invalido");
+				printf("\n***ERROR: Ingrese un valor válido como opción***");
 				response = 0;
 			}
 		}while(!response);
@@ -295,7 +296,7 @@ signed char executeCmd(int commandNum, typePlay * currentPlay, typePlay * previo
       return 0;
       break;
     case 8:
-      printf ("\n*** Comando no reconocido! ***");
+      printf ("\n***ERROR: Ingrese un valor válido como opción***");
       break;
     default:
       score = 0;

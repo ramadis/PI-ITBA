@@ -1,27 +1,31 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#include <ctype.h>
+
 #define CLEAN_BUFFER while(getchar() != '\n');
 #define BLOCK 10
-
-enum states = {LOSE=1, WIN, CAN_MOVE, NO_MEMORY};
 
 typedef struct {
 	unsigned short int difficulty;
 	unsigned int score;
 	unsigned short int undos;
-	unsigned short int  ** board;
+	unsigned short int ** board;
+	unsigned int size;
 } typePlay;
 
+enum states {LOSE=1, WIN, CAN_MOVE, NO_MEMORY};
+enum movements {LEFT=4, RIGHT, UP, DOWN};
 
-unsigned char readMenu(void);
 signed char checkAround(typePlay * game, int row, int column);
 int checkStatus(typePlay * previousPlay, typePlay * currentPlay);
 void copyPlay(typePlay * destination, typePlay * origin);
-signed char executeCmd(int commandNum, typePlay * currentPlay, typePlay * previousPlay);
 int getFromDifficulty(unsigned short int difficulty, unsigned short int * undos, unsigned int * scoreToWin);
+unsigned char loadGame(typePlay * game, char * loadName);
 typePlay makePlay(unsigned short int difficulty, unsigned int score, unsigned short int undos);
-void play(typePlay * previousPlay, typePlay * currentPlay);
-void printPlay(const typePlay * game);
-void quitGame(typePlay * game);
-unsigned char readDifficulty();
-unsigned char readMenu(void);
-signed char undo(typePlay * nowPlay, typePlay * previousPlay);
-void wrapSave(typePlay * game);
+int move(typePlay * game, int movement);
+double randNormalize(void);
+int randInt(int izq, int der);
+char saveGame(typePlay * game, char * filename);
+signed char undo(typePlay * currentPlay, typePlay * previousPlay);
