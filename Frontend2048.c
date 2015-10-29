@@ -39,7 +39,7 @@ int main(){
 				previousPlay = makePlay(currentPlay.difficulty, 0, 0);
 
 				if(currentPlay.board == NULL || previousPlay.board == NULL){
-					printf("\nNo se pudo generar el tablero\n");
+					printf("\n***ERROR:No se pudo generar el tablero***\n");
 					option = EXIT;
 				}
 
@@ -254,7 +254,12 @@ unsigned char play(typePlay * previousPlay, typePlay * currentPlay){
 	}while(cmd && status == CAN_MOVE);
 
 	if (status == LOSE || status == WIN){
-		(status == WIN)? printf("GANASTE!\n") : printf("PERDISTE :()\n");
+		if(status == WIN) {
+			printPlay(currentPlay);
+			printf("***¡GANASTE!***\n");
+		}
+		else
+			printf("PERDISTE :()\n");
 
 		do {
 			printf("\n¿Quiere volver a jugar? [s/n]: ");
