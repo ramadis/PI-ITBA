@@ -6,16 +6,16 @@ signed char checkAround(typePlay * game, int row, int column){
 	char canMove = 0;
 
 	if( row >= 1 )
-		canMove = game->board[row-1][column] == current || game->board[row+1][column] == 0 ;
+		canMove = game->board[row-1][column] == current || game->board[row-1][column] == 0 ;
 
-	else if( !canMove && row+1 < game->size)
+	if( !canMove && row+1 < game->size)
 		canMove = game->board[row+1][column] == current || game->board[row+1][column] == 0 ;
 
-	else if( !canMove && column >= 1 )
-		canMove = game->board[row][column-1] == current || game->board[row+1][column] == 0 ;
+	if( !canMove && column >= 1 )
+		canMove = game->board[row][column-1] == current || game->board[row][column-1] == 0 ;
 
-	else if( !canMove && column+1 < game->size)
-		canMove = game->board[row][column+1] == current || game->board[row+1][column] == 0 ;
+	if( !canMove && column+1 < game->size)
+		canMove = game->board[row][column+1] == current || game->board[row][column+1] == 0 ;
 
 	return canMove;
 }
@@ -30,7 +30,6 @@ int checkStatus(typePlay * previousPlay, typePlay * currentPlay){
 
 	for(i = 0; i < currentPlay->size; i++){
 		for(j = 0; j < currentPlay->size; j++){
-
 			if (currentPlay->board[i][j] == 0){
 
 				if(indexZeros%BLOCK == 0){
@@ -47,38 +46,50 @@ int checkStatus(typePlay * previousPlay, typePlay * currentPlay){
 				}
 
 				zeros[indexZeros++] = i*10+j;
-				canMove = 1;
 			}
-			else if (currentPlay->board[i][j] == winNumber) {
+      else if (currentPlay->board[i][j] == winNumber) {
 				free(zeros);
 				return WIN;
 			}
-			else if (!canMove && checkAround(currentPlay,i ,j))
-				canMove = 1;
 		}
-
 		zeros=realloc(zeros,indexZeros*sizeof(*zeros));
 	}
 
-	printf("%d", canMove);
-	if (canMove){
-		zeroRand = randInt(0, indexZeros-1);
-		numRand = randInt(1, 100);
-		currentPlay->board[zeros[zeroRand]/10][zeros[zeroRand]%10] = 2 + 2 * (numRand < 12);
-		free(zeros);
-		return CAN_MOVE;
-	} else if(currentPlay->undos == previousPlay->undos){
-		free(zeros);
-		return CAN_MOVE;
-	}
+  //Reducir, mucho codigo repetido papa.
+  if(indexZeros == 0){
+    for(i = 0; i < currentPlay->size; i++)
+      for(j= 0; j < currentPlay->size; j++)
+        canMove = checkAround(currentPlay, i ,j);
+
+    if (!canMove && (currentPlay->undos == 0 || currentPlay->undos != previousPlay->undos)) {
+      free(zeros);
+      return LOSE;
+  }else if (indexZeros == 1) {
+    numRand = randInt(1, 100);
+    currentPlay->board[zeros[0]/10][zeros[0]%10] = 2 + 2 * (numRand < 12);
+
+    for(i = 0; i < currentPlay->size; i++)
+      for(j= 0; j < currentPlay->size; j++)
+        canMove = checkAround(currentPlay, i ,j);
+
+    if (!canMove && (currentPlay->undos == 0 || currentPlay->undos != previousPlay->undos)) {
+      free(zeros);
+      return LOSE;
+    }
+  } else if (indexZeros > 1) {
+    zeroRand = randInt(0, indexZeros-1);
+    numRand = randInt(1, 100);
+    currentPlay->board[zeros[zeroRand]/10][zeros[zeroRand]%10] = 2 + 2 * (numRand < 12);
+    free(zeros);
+    return CAN_MOVE;
+  }
 
 	free(zeros);
-	return LOSE;
+	return CAN_MOVE;
 }
 
 void copyPlay(typePlay * destination, typePlay * origin){
 	int i, j;
-
 
 	destination->score = origin->score;
 	destination->undos = origin->undos;

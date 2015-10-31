@@ -255,6 +255,14 @@ unsigned char play(typePlay * previousPlay, typePlay * currentPlay){
 
 	if (status == LOSE || status == WIN){
 
+		printPlay(currentPlay);
+		
+		if(status == LOSE){
+			printf("\nPerdiste!");
+		}else if(status == WIN){
+			printf("\nGanaste!");
+		}
+
 		do {
 			printf("\nQuiere volver a jugar? [s/n]: ");
 			response = tolower(getchar());
