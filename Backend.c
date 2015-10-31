@@ -64,17 +64,17 @@ int checkStatus (const typePlay * previousPlay, typePlay * currentPlay)
 	}
 
 
-  if(indexZeros >= 1)
+  if (indexZeros >= 1)
   {
     zeroRand = randInt(0, indexZeros-1);
     numRand = randInt(1, 100);
     currentPlay->board[zeros[zeroRand]/10][zeros[zeroRand]%10] = 2 + 2 * (numRand < 12);
   }
 
-  if(indexZeros <= 1)
+  if (indexZeros <= 1)
   {
-    for(i = 0; i < currentPlay->size; i++)
-      for(j= 0; j < currentPlay->size; j++)
+    for (i = 0; i < currentPlay->size; i++)
+      for (j= 0; j < currentPlay->size; j++)
         canMove = checkAround(currentPlay, i ,j);
 
     if (!canMove && (currentPlay->undos == 0 || currentPlay->undos != previousPlay->undos))

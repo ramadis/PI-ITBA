@@ -1,9 +1,12 @@
+#ifndef _BACKEND_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 #include <ctype.h>
 
+#define _BACKEND_H
 #define CLEAN_BUFFER while(getchar() != '\n');
 #define BLOCK 10
 #define CHANCES_4 11
@@ -33,3 +36,5 @@ double randNormalize (void);
 int randInt (int izq, int der);
 char saveGame (typePlay * game, const char * filename);
 signed char undo (typePlay * currentPlay, typePlay * previousPlay);
+
+#endif
