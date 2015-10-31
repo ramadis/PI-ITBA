@@ -12,15 +12,15 @@ signed char checkAround (const typePlay * game, int row, int column)
 
 	if( !canMove && row + 1 < game->size)
 		canMove = game->board[row + 1][column] == current 
-              || game->board[row + 1][column] == EMPTY ;
+              || game->board[row + 1][column] == EMPTY;
 
 	if( !canMove && column >= 1 )
 		canMove = game->board[row][column - 1] == current 
-              || game->board[row][column - 1] == EMPTY ;
+              || game->board[row][column - 1] == EMPTY;
 
 	if( !canMove && column + 1 < game->size)
 		canMove = game->board[row][column + 1] == current 
-              || game->board[row][column + 1] == EMPTY ;
+              || game->board[row][column + 1] == EMPTY;
 
 	return canMove;
 }
@@ -63,41 +63,25 @@ int checkStatus (const typePlay * previousPlay, typePlay * currentPlay)
 		zeros=realloc(zeros, indexZeros * sizeof( *zeros ));
 	}
 
-  /*Reducir, mucho codigo repetido papa.*/
-  if(indexZeros == 0)
-  {
-    for(i = 0; i < currentPlay->size; i++)
-      for(j= 0; j < currentPlay->size; j++)
-        canMove = checkAround(currentPlay, i ,j);
 
-    if (!canMove && (currentPlay->undos == 0 || currentPlay->undos != previousPlay->undos))
-    {
-      free(zeros);
-      return LOSE;
-    }
-
-  } else if (indexZeros == 1)
-  {
-    numRand = randInt(1, 100);
-    currentPlay->board[zeros[0]/10][zeros[0]%10] = 2 + 2 * (numRand < 12);
-
-    for(i = 0; i < currentPlay->size; i++)
-      for(j= 0; j < currentPlay->size; j++)
-        canMove = checkAround(currentPlay, i ,j);
-
-    if (!canMove && (currentPlay->undos == 0 || currentPlay->undos != previousPlay->undos))
-    {
-      free(zeros);
-      return LOSE;
-    }
-
-  } else if (indexZeros > 1)
+  if(indexZeros >= 1)
   {
     zeroRand = randInt(0, indexZeros-1);
     numRand = randInt(1, 100);
     currentPlay->board[zeros[zeroRand]/10][zeros[zeroRand]%10] = 2 + 2 * (numRand < 12);
-    free(zeros);
-    return CAN_MOVE;
+  }
+
+  if(indexZeros <= 1)
+  {
+    for(i = 0; i < currentPlay->size; i++)
+      for(j= 0; j < currentPlay->size; j++)
+        canMove = checkAround(currentPlay, i ,j);
+
+    if (!canMove && (currentPlay->undos == 0 || currentPlay->undos != previousPlay->undos))
+    {
+      free(zeros);
+      return LOSE;
+    }
   }
 
 	free(zeros);
@@ -321,7 +305,7 @@ char saveGame (typePlay * game, const char * filename)
 {
 	FILE * file;
   int i, j;
-  
+
 	file = fopen(filename, "wt");
 
 	if(file == NULL)
