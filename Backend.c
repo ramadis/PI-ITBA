@@ -3,8 +3,8 @@
 signed char checkAround (const typePlay * game, int row, int column)
 {
 	unsigned short int current;
+  char canMove = ERROR;
 	current = game->board[row][column];
-	char canMove = ERROR;
 
 	if( row >= 1 )
 		canMove = game->board[row - 1][column] == current 
@@ -63,7 +63,7 @@ int checkStatus (const typePlay * previousPlay, typePlay * currentPlay)
 		zeros=realloc(zeros, indexZeros * sizeof( *zeros ));
 	}
 
-  //Reducir, mucho codigo repetido papa.
+  /*Reducir, mucho codigo repetido papa.*/
   if(indexZeros == 0)
   {
     for(i = 0; i < currentPlay->size; i++)
@@ -320,8 +320,9 @@ int randInt (int izq, int der)
 char saveGame (typePlay * game, const char * filename)
 {
 	FILE * file;
+  int i, j;
+  
 	file = fopen(filename, "wt");
-	int i, j;
 
 	if(file == NULL)
 		return ERROR;

@@ -30,10 +30,11 @@ int main (void)
 
 	do
 	{
+		int filRand, colRand, i;
+	
 		auxUndos = 0;
 		option = readMenu();
-		int filRand, colRand, i;
-
+	
 		switch(option)
 		{
 			case PLAY:
@@ -117,7 +118,6 @@ unsigned char readMenu (void)
 unsigned char wrapLoad (typePlay * game)
 {
   char loadName[36] = {0};
-  int status;
   printf("\nIngrese el nombre del archivo que desea cargar: ");
 	scanf("%35s", loadName);
 	CLEAN_BUFFER
@@ -154,7 +154,6 @@ int readCmd(void)
   int commandnum, i = 0;
   char vec[5];
   char c;
-  unsigned char cont = 0;
 
   printf("\nIngrese el comando que desea realizar: ");
 
@@ -329,7 +328,7 @@ unsigned char play (typePlay * previousPlay, typePlay * currentPlay)
 		printf("\nEl programa se ha quedado sin memoria");
 	}
 
-	return response == 's'; //Si quiere volver a jugar devuelve 1, caso contrario 0
+	return response == 's';
 }
 
 
@@ -337,9 +336,10 @@ signed char executeCmd (int commandNum, typePlay * currentPlay, typePlay * previ
 {
   typePlay auxPlay;
   char filename[35];
-  auxPlay = makePlay(currentPlay->difficulty, currentPlay->score, currentPlay->undos);
   int score = 0;
 
+  auxPlay = makePlay(currentPlay->difficulty, currentPlay->score, currentPlay->undos);
+  
 	switch (commandNum)
 	{
 		case UNDO:
