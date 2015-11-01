@@ -3,20 +3,38 @@
 #include <string.h>
 #include <time.h>
 #include <ctype.h>
-#include "Backend.h"
+#include "2048Back.h"
 
 #define CLEAN_BUFFER while(getchar() != '\n');
 
 enum options {PLAY = 1, LOAD, EXIT};
 
+/*Imprime/lee primeras opciones del juego (Nuevo, cargar, salir)*/
 unsigned char readMenu (void);
+
+/*Lee el nombre del archivo que se desea cargar y llama a loadGame con ese nombre*/
 unsigned char wrapLoad (typePlay * game);
+
+/*Lee el nombre con el que se desea guardar y llama a saveGame con ese nombre*/
 void wrapSave (typePlay * game);
+
+/*Lee los comandos que se desean realizar una vez dentro del juego*/
 int readCmd (void);
+
+/*Lee la dificultad con la que se desea comenzar un nuevo juego*/
 unsigned char readDifficulty (void);
+
+/*Imprime si se desea o no guardar el juego antes de salir*/
 void quitGame (typePlay * game);
+
+/*Imprime el tablero junto con la jugada*/
 void printPlay (const typePlay * game);
+
+/*Llama a las funciones que realizan la jugada y verifica lo que retornan
+			 (si el jugador gano o perdio)*/
 unsigned char play (typePlay * previousPlay, typePlay * currentPlay);
+
+/*Llama a las funciones que ejecutan los comandos ingresados dentro del juego*/
 signed char executeCmd (int commandNum, typePlay * currentPlay, typePlay * previousPlay);
 
 
@@ -195,7 +213,7 @@ unsigned char readDifficulty (void)
 
 	do
 	{
-		printf("\n1. Facil\n2. Intermedio\n3. Dificil");
+		printf("\n1. Facil\n2. Intermedio\n3. Dificil\n");
 		printf("\nIngrese alguna de las opciones [1, 2 o 3]: ");
 
 		if (!scanf("%d", &difficulty))
