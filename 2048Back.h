@@ -25,37 +25,62 @@ typedef struct {
 	unsigned int size;
 } typePlay;
 
-/*Recibe una posicion del tablero y verifica el contenido de los casillero aledaños*/
+/*
+**  Recibe una posición del tablero y verifica si puede o no moverse
+**  la ficha en esa posición.
+*/
 signed char checkAround (const typePlay * game, int row, int column);
 
-/*Llama a funciones que retornan informacion sobre el estado actual del tablero
-	(Si hay espacios vacios, esta lleno o ya se llego al numero ganador) 
-		y genera el numero random luego de la jugada*/
+/*
+**  Llama a funciones que retornan información sobre el estado actual del tablero
+**  (Si hay espacios vacios, esta lleno o ya se llego al numero ganador) 
+**  y genera el numero random luego de la jugada
+*/
 int checkStatus (const typePlay * previousPlay, typePlay * currentPlay);
 
-/*Copia en una estructura auxiliar la jugada actual, por si luego se ingresa un UNDO*/
+/*
+**  Copia una jugada orígen en una destino.
+*/
 void copyPlay (typePlay * destination, const typePlay * origin);
 
-/*Recibe la dificultad deseada y retorna el numero al que se debe llegar para ganar, 
-	el tamaño del tablero y los UNDO de acuerdo a la dificultad seleccionada*/
+/*
+**  Recibe la dificultad por parámetro y retorna el número al que se debe llegar para ganar, 
+**	el tamaño del tablero y la cantidad de UNDOs de acuerdo a la dificultad seleccionada.
+*/
 int getFromDifficulty (unsigned short int difficulty, unsigned short int * undos, unsigned int * scoreToWin);
 
-/*Carga un juego guardado*/
+/*
+**  Carga un juego previamente guardado
+*/
 unsigned char loadGame (typePlay * game, const char * loadName);
 
-/*Crea la estructura*/
+/*
+**  Crea la estructura de la partida
+*/
 typePlay makePlay (unsigned short int difficulty, unsigned int score, unsigned short int undos);
 
-/*Realiza el movimiento deseado (Mueve todas las fichas, suma las de igual valor)*/
+/*
+**  Realiza el movimiento ingresado por parámetro. 
+**  (Mueve todas las fichas, suma las de igual valor)
+*/
 int move (typePlay * game, int movement);
 
+/*
+**  Generan números al azar.
+*/
 double randNormalize (void);
 int randInt (int izq, int der);
 
-/*Guarda el juego en el estado actual con el nombre deseado*/
+/*
+**  Guarda el juego en el estado actual con el nombre
+**  pasado por parámetro
+*/
 char saveGame (typePlay * game, const char * filename);
 
-/*Realiza la funcion UNDO*/
+/*
+**  Deshace la última jugada, es decir, le asigna el contenido
+**  de la jugada previa a la jugada actual.
+*/
 signed char undo (typePlay * currentPlay, typePlay * previousPlay);
 
 #endif

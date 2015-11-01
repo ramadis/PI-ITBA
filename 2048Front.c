@@ -9,32 +9,50 @@
 
 enum options {PLAY = 1, LOAD, EXIT};
 
-/*Imprime/lee primeras opciones del juego (Nuevo, cargar, salir)*/
+/*	
+**	Imprime/lee primeras opciones del juego (Nuevo, cargar, salir)
+*/
 unsigned char readMenu (void);
 
-/*Lee el nombre del archivo que se desea cargar y llama a loadGame con ese nombre*/
+/*
+**	Lee el nombre del archivo que se desea cargar y llama a loadGame con ese nombre
+*/
 unsigned char wrapLoad (typePlay * game);
 
-/*Lee el nombre con el que se desea guardar y llama a saveGame con ese nombre*/
+/*
+**	Lee el nombre con el que se desea guardar y llama a saveGame con ese nombre
+*/
 void wrapSave (typePlay * game);
 
-/*Lee los comandos que se desean realizar una vez dentro del juego*/
+/*
+**	Lee los comandos que se desean realizar una vez que se está jugando
+*/
 int readCmd (void);
 
-/*Lee la dificultad con la que se desea comenzar un nuevo juego*/
+/*
+**	Lee la dificultad con la que se desea comenzar un nuevo juego
+*/
 unsigned char readDifficulty (void);
 
-/*Imprime si se desea o no guardar el juego antes de salir*/
+/*
+**	Imprime y lee si se desea o no guardar el juego antes de salir
+*/
 void quitGame (typePlay * game);
 
-/*Imprime el tablero junto con la jugada*/
+/*
+**	Imprime el tablero junto con los datos de la jugada
+*/
 void printPlay (const typePlay * game);
 
-/*Llama a las funciones que realizan la jugada y verifica lo que retornan
-			 (si el jugador gano o perdio)*/
+/*
+**	Llama a las funciones que leen y ejecutan comandos y reacciona de acuerdo
+**	a los valores que retornan (si el jugador gano o perdio)
+*/
 unsigned char play (typePlay * previousPlay, typePlay * currentPlay);
 
-/*Llama a las funciones que ejecutan los comandos ingresados dentro del juego*/
+/*
+**	Llama a las funciones que ejecutan los comandos ingresados dentro del juego
+*/
 signed char executeCmd (int commandNum, typePlay * currentPlay, typePlay * previousPlay);
 
 
@@ -56,37 +74,43 @@ int main (void)
 		switch(option)
 		{
 			case PLAY:
+				/*	Genero las estructuras de la jugada  */
 				currentPlay.difficulty = readDifficulty();
 				getFromDifficulty(currentPlay.difficulty, &auxUndos, NULL);
 				currentPlay = makePlay(currentPlay.difficulty, 0, auxUndos);
 				previousPlay = makePlay(currentPlay.difficulty, 0, 0);
 
+				/*	Devuelvo un error si no se pudieron crear con éxito	 */
 				if (currentPlay.board == NULL || previousPlay.board == NULL)
 				{
 					printf("\nNo se pudo generar el tablero\n");
 					option = EXIT;
-				}
-
-				for (i = 0; option != EXIT && i < 2; i++)
+				} else
 				{
-					do
+					/*	De otra forma, genero los números aleatorios	 */
+					for (i = 0; option != EXIT && i < 2; i++)
 					{
-						filRand = randInt(0, currentPlay.size - 1);
-						colRand = randInt(0, currentPlay.size - 1);
-					}while (currentPlay.board[filRand][colRand] != 0);
-					currentPlay.board[filRand][colRand] = 2 + 2 * (randInt(1, 100) <= CHANCES_4);
+						do
+						{
+							filRand = randInt(0, currentPlay.size - 1);
+							colRand = randInt(0, currentPlay.size - 1);
+						}while (currentPlay.board[filRand][colRand] != 0);
+						currentPlay.board[filRand][colRand] = 2 + 2 * (randInt(1, 100) <= CHANCES_4);
+					}
+					/*	Y comienzo el juego	 */
+					option = play(&previousPlay, &currentPlay)? option: EXIT;
 				}
-
-				option = play(&previousPlay, &currentPlay)? option: EXIT;
 				break;
 
 			case LOAD:
+				/*	Si no se pudo cargar la partida, devuelvo un error	 */
 				if (wrapLoad(&currentPlay) == ERROR)
 				{
 					printf("\nError al cargar el juego.");
 				}	
 				else
 				{
+					/*	De otra forma, genero la estructura de la jugada y comienzo el juego	 */
 					previousPlay = makePlay(currentPlay.difficulty, 0, 0);
 					option = play(&previousPlay, &currentPlay)? option: EXIT;
 				}
@@ -250,11 +274,9 @@ void quitGame (typePlay * game)
 	}while (!response);
 
 	if (response == 's')
-	{
 		wrapSave(game);
-	} else {
+	else
 		printf("\nSaliendo del juego... \n");
-	}
 
 	return ;
 }
@@ -270,7 +292,7 @@ void printPlay (const typePlay * game)
 	printf("\nPuntaje:%6d", game->score);
 	printf("\nUndos:\t%6d\n", game->undos);
 
-	/*PRINT SUPERIOR BAR*/
+	/*	Imprimo la barra superior	 */
 	printf("╔");
 	for (i = 1; i < TOTAL_WIDTH ; i++)
 		printf("%s", (i % NUM_LENGTH)? "═" : "╦");
@@ -279,7 +301,7 @@ void printPlay (const typePlay * game)
 	for (i = 0; i < game->size; i++)
 	{
 
-		/*PRINT NUMBERS OR SPACES*/
+		/*	Imprimo los números o los espacios	 */
 		for ( j = 0; j < game->size; j++)
 		{
 			if (game->board[i][j] == EMPTY)
@@ -288,7 +310,7 @@ void printPlay (const typePlay * game)
 				printf("║%4d", game->board[i][j]);
 		}
 
-		/*PRINT SEPARATOR AND LOWER BAR*/
+		/*	Imprimo la barra inferior	 */
 		printf("║\n%s", (i != game->size - 1)? "╠" : "╚");
 		for (j = 1; j < TOTAL_WIDTH ; j++)
 			if (i != game->size - 1)
@@ -307,6 +329,7 @@ unsigned char play (typePlay * previousPlay, typePlay * currentPlay)
 	signed char cmd, status = CAN_MOVE;
 	unsigned char response = ERROR;
 
+	/*	El juego continua mientras no se haya ganado o perdido	 */
 	do
 	{
 		printPlay(currentPlay);

@@ -6,6 +6,7 @@ signed char checkAround (const typePlay * game, int row, int column)
   char canMove = ERROR;
 	current = game->board[row][column];
 
+  /*  Compruebo si se puede realizar un movimiento  */
 	if ( row >= 1 )
 		canMove = game->board[row - 1][column] == current 
               || game->board[row - 1][column] == EMPTY;
@@ -35,6 +36,8 @@ int checkStatus (const typePlay * previousPlay, typePlay * currentPlay)
 
 	getFromDifficulty(currentPlay->difficulty, NULL, &winNumber);
 
+  /*  Genero un vector con las posiciones del tablero donde hay 0s  */
+  /*  Retorno WIN si se encuentra el valor con el que se gana la partida  */
 	for (i = 0; i < currentPlay->size; i++)
   {
 		for (j = 0; j < currentPlay->size; j++)
@@ -63,7 +66,7 @@ int checkStatus (const typePlay * previousPlay, typePlay * currentPlay)
 		zeros=realloc(zeros, indexZeros * sizeof( *zeros ));
 	}
 
-
+  /*  Genero un nuevo número aleatorio luego de un movimiento no nulo  */
   if (indexZeros >= 1)
   {
     zeroRand = randInt(0, indexZeros-1);
@@ -71,6 +74,8 @@ int checkStatus (const typePlay * previousPlay, typePlay * currentPlay)
     currentPlay->board[zeros[zeroRand]/10][zeros[zeroRand]%10] = 2 + 2 * (numRand < 12);
   }
 
+  /*  Compruebo si aún se pueden realizar movimientos  */
+  /*  Si no es posible, retorno LOSE  */
   if (indexZeros <= 1)
   {
     for (i = 0; i < currentPlay->size; i++)
@@ -84,6 +89,7 @@ int checkStatus (const typePlay * previousPlay, typePlay * currentPlay)
     }
   }
 
+  /*  De otra forma, retorno CAN_MOVE  */
 	free(zeros);
 	return CAN_MOVE;
 }
@@ -188,6 +194,7 @@ typePlay makePlay (unsigned short int difficulty, unsigned int score, unsigned s
 	if (game.board == NULL)
 		return game;
 
+  /*  Creo el tablero  */
 	for(i = 0; i < size; i++)
   {
 		game.board[i] = malloc(size * sizeof (*game.board[i]));
