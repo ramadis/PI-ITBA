@@ -163,7 +163,7 @@ int readCmd(void)
 
   if (!strcmp(vec,"undo"))
     commandnum = UNDO;
-  else if (!strcmp(vec,"save"))
+  else if (!strcmp(vec,"save "))
     commandnum = SAVE;
   else if (!strcmp(vec,"quit"))
     commandnum = QUIT;
@@ -348,9 +348,11 @@ signed char executeCmd (int commandNum, typePlay * currentPlay, typePlay * previ
       	break;
 
     case SAVE:
-      if (scanf("%34s", filename) && !saveGame(currentPlay, filename))
+      if (! (fgets(filename, 35, stdin) != NULL 
+            && filename[0] != '\n' 
+            && (filename[strlen(filename)-1] = 0) == 0 
+            && saveGame(currentPlay, filename) == SUCCESS))
         printf("\n**** No se pudo guardar con exito ***");
-      CLEAN_BUFFER
       break;
 
     case QUIT:

@@ -6,19 +6,19 @@ signed char checkAround (const typePlay * game, int row, int column)
   char canMove = ERROR;
 	current = game->board[row][column];
 
-	if( row >= 1 )
+	if ( row >= 1 )
 		canMove = game->board[row - 1][column] == current 
               || game->board[row - 1][column] == EMPTY;
 
-	if( !canMove && row + 1 < game->size)
+	if ( !canMove && row + 1 < game->size)
 		canMove = game->board[row + 1][column] == current 
               || game->board[row + 1][column] == EMPTY;
 
-	if( !canMove && column >= 1 )
+	if ( !canMove && column >= 1 )
 		canMove = game->board[row][column - 1] == current 
               || game->board[row][column - 1] == EMPTY;
 
-	if( !canMove && column + 1 < game->size)
+	if ( !canMove && column + 1 < game->size)
 		canMove = game->board[row][column + 1] == current 
               || game->board[row][column + 1] == EMPTY;
 
@@ -88,6 +88,7 @@ int checkStatus (const typePlay * previousPlay, typePlay * currentPlay)
 	return CAN_MOVE;
 }
 
+
 void copyPlay (typePlay * destination, const typePlay * origin)
 {
 	int i, j;
@@ -143,6 +144,7 @@ int getFromDifficulty (unsigned short int difficulty, unsigned short int * undos
   return size;
 }
 
+
 unsigned char loadGame (typePlay * game, const char * loadName)
 {
 	unsigned short int difficulty;
@@ -183,14 +185,14 @@ typePlay makePlay (unsigned short int difficulty, unsigned int score, unsigned s
 
 	game.board = malloc(size * sizeof(*game.board));
 
-	if(game.board == NULL)
+	if (game.board == NULL)
 		return game;
 
 	for(i = 0; i < size; i++)
   {
 		game.board[i] = malloc(size * sizeof (*game.board[i]));
 
-		if(game.board[i] == NULL)
+		if (game.board[i] == NULL)
     {
 			for(j = 0; j < i; j++)
 				free(game.board[j]);
@@ -200,8 +202,13 @@ typePlay makePlay (unsigned short int difficulty, unsigned int score, unsigned s
 		}
 	}
 
+  for (i = 0; i < game.size; i++)
+    for (j = 0; j < game.size; j++)
+      game.board[i][j] = 0;
+
 	return game;
 }
+
 
 #define ind1  i * orientation + j * !orientation
 #define ind2  i * !orientation + j * orientation
@@ -210,7 +217,8 @@ typePlay makePlay (unsigned short int difficulty, unsigned int score, unsigned s
 #define k1 k * !orientation + orientation * (ind1)
 #define k2 k * orientation + !orientation * (ind2)
 
-int move (typePlay * game, int movement){
+int move (typePlay * game, int movement)
+{
 
   int dim = game->size;
   int i,j,k,aux,formar;
@@ -270,7 +278,7 @@ int move (typePlay * game, int movement){
             score += game->board[aux1][aux2] *= 2;
             game->board[ind1][ind2] = EMPTY;
             formar = k;
-          } else if(game->board[aux1][aux2] == EMPTY)
+          } else if (game->board[aux1][aux2] == EMPTY)
           {
             game->board[aux1][aux2] = game->board[ind1][ind2];
             game->board[ind1][ind2] = EMPTY;
@@ -285,21 +293,24 @@ int move (typePlay * game, int movement){
     }
   }
 
-  if(!canMove)
+  if (!canMove)
     return -1;
   else
     return score;
 }
+
 
 double randNormalize (void)
 {
 	return rand() / ((double)RAND_MAX + 1);
 }
 
+
 int randInt (int izq, int der)
 {
 	return izq + randNormalize() * (der - izq + 1);
 }
+
 
 char saveGame (typePlay * game, const char * filename)
 {
@@ -308,7 +319,7 @@ char saveGame (typePlay * game, const char * filename)
 
 	file = fopen(filename, "wt");
 
-	if(file == NULL)
+	if (file == NULL)
 		return ERROR;
 
 	game->size = getFromDifficulty(game->difficulty, NULL, NULL);
@@ -324,9 +335,10 @@ char saveGame (typePlay * game, const char * filename)
 	return SUCCESS;
 }
 
+
 signed char undo (typePlay * currentPlay, typePlay * previousPlay)
 {
-	if(previousPlay->undos != currentPlay->undos || currentPlay->undos == 0)
+	if (previousPlay->undos != currentPlay->undos || currentPlay->undos == 0)
 		return ERROR;
 
 	copyPlay(currentPlay, previousPlay);
