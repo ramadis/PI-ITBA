@@ -71,7 +71,7 @@ int main (void)
 		auxUndos = 0;
 		option = readMenu();
 	
-		switch(option)
+		switch (option)
 		{
 			case PLAY:
 				/*	Genero las estructuras de la jugada  */
@@ -187,7 +187,7 @@ void wrapSave (typePlay * game)
 			printf ("\nSe produjo un error en el guardado.");
 			printf ("\nVuelva a intentarlo...");
 		}
-	} while(!parameters);
+	}while (!parameters);
 }
 
 

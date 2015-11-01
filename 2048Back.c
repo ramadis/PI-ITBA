@@ -169,7 +169,7 @@ unsigned char loadGame (typePlay * game, const char * loadName)
 	fread(&(game->undos), sizeof(unsigned short int), 1, file);
 
 	for (i = 0; i < game->size; i++)
-		for(j = 0; j < game->size; j++)
+		for (j = 0; j < game->size; j++)
 			fread(&(game->board[i][j]), sizeof(unsigned short int), 1, file);
 
   fclose(file);
@@ -195,13 +195,13 @@ typePlay makePlay (unsigned short int difficulty, unsigned int score, unsigned s
 		return game;
 
   /*  Creo el tablero  */
-	for(i = 0; i < size; i++)
+	for (i = 0; i < size; i++)
   {
 		game.board[i] = malloc(size * sizeof (*game.board[i]));
 
 		if (game.board[i] == NULL)
     {
-			for(j = 0; j < i; j++)
+			for (j = 0; j < i; j++)
 				free(game.board[j]);
 			free(game.board);
 			game.board = NULL;
@@ -260,7 +260,7 @@ int move (typePlay * game, int movement)
       break;
   }
 
-  for(i = 0; i < dim; i++)
+  for (i = 0; i < dim; i++)
   {
     formar=startk;
     for (j = startk + incr, k = startk; j >= 0 && j<dim ; j += incr, k+= incr)
@@ -333,8 +333,8 @@ char saveGame (typePlay * game, const char * filename)
 	fwrite(&(game->difficulty), sizeof(unsigned short int), 1, file);
 	fwrite(&(game->score), sizeof(unsigned int), 1, file);
 	fwrite(&(game->undos), sizeof(unsigned short int), 1, file);
-	for(i = 0; i < game->size; i++)
-		for(j = 0; j < game->size; j++)
+	for (i = 0; i < game->size; i++)
+		for (j = 0; j < game->size; j++)
 			fwrite(&(game->board[i][j]), sizeof(unsigned short int), 1, file);
 
 	fclose(file);
