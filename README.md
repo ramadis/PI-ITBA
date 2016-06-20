@@ -14,4 +14,4 @@ Run `make all` in console.
 - Luciano Mosquera
 - Ramiro Olivera Fedi
 
-![Soldados del leña](https://postimg.org/image/q6jb41yap/ =100x100)
+![Soldados del leña](https://s32.postimg.org/gyr2ncr8l/soldadoshq.jpg =100x100)
